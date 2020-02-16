@@ -18,7 +18,13 @@ class LibraryTest extends TestCase
     /** @test */
     public function databaseAbleToAddABookTest()
     {
-        $book = factory(Book::class)->make();
-        $this->assertDatabaseHas('book', $book);
+        $book = factory(Book::class)->create();
+        
+        $this->assertDatabaseHas('books', [
+            'id' => $book->id
+        ]);
+    }
+    public function userAbleToAddABookTest(){
+
     }
 }
