@@ -19,3 +19,4 @@ Route::get('/', function () {
 Route::get('/book', 'BooksController@index')->name('books.index');
 Route::post('/book', 'BooksController@store')->name('books.store');
 Route::patch('/book/{book}', 'BooksController@update')->name('books.update');
+Route::delete('/book/{book}', 'BooksController@destroy')->name('books.destory');
