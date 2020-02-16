@@ -144,4 +144,20 @@ class LibraryTest extends TestCase
     }
     /* Update A Book Test End */
 
+    /* Delete A Book Test Begin */
+       /** @test */
+    public function deleteABookFromTheBooksDatabaseTest()
+    {
+        $book = factory(Book::class)->create();
+
+        $response = $this->delete('/book/' . $book->id);
+
+        $this->assertDatabaseMissing('books', [
+            'id' => $book->id,
+        ]);
+
+        $response->assertRedirect('/book');
+
+    }
+    /* Delete A Book Test End */
 }
