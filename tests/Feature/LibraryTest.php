@@ -24,6 +24,7 @@ class LibraryTest extends TestCase
             'id' => $book->id
         ]);
     }
+    /** @test */
     public function userAbleToAddABookTest()
     {
         // This is a store action.
@@ -31,8 +32,7 @@ class LibraryTest extends TestCase
             'title' => 'Learning Laravel',
             'author' => 'Mohammed Salah',
         ]);
-
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('books', [
             'title' => 'Learning Laravel',
