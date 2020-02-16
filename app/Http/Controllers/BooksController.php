@@ -14,7 +14,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-        //
+        return view('books.index');
     }
 
     /**
@@ -41,7 +41,7 @@ class BooksController extends Controller
         ]);
         $book = Book::create($data);
 
-        return [];
+        return redirect()->route('books.index');
     }
 
     /**

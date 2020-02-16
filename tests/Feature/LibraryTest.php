@@ -32,13 +32,14 @@ class LibraryTest extends TestCase
             'title' => 'Learning Laravel',
             'author' => 'Mohammed Salah',
         ]);
-        $response->assertStatus(200);
+        // $response->assertStatus(200);
 
         $this->assertDatabaseHas('books', [
             'title' => 'Learning Laravel',
             'author' => 'Mohammed Salah',
         ]);
 
-        $this->assertRedirectedTo('/book');
+
+        $response->assertRedirect('/book');
     }
 }
