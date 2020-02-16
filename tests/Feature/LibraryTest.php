@@ -38,5 +38,7 @@ class LibraryTest extends TestCase
             'title' => 'Learning Laravel',
             'author' => 'Mohammed Salah',
         ]);
+
+        $this->assertRedirectedTo('/book');
     }
 }
