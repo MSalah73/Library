@@ -75,7 +75,13 @@ class BooksController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $data = request()->validate([
+            'author' => 'required',
+        ]);
+
+        $book->update($data);
+
+        return redirect()->route('books.index');
     }
 
     /**
