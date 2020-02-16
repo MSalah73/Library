@@ -15,6 +15,7 @@ class LibraryTest extends TestCase
      *
      * @return void
      */
+    /* Database Test Begin*/
     /** @test */
     public function databaseAbleToAddABookTest()
     {
@@ -23,6 +24,26 @@ class LibraryTest extends TestCase
         $this->assertDatabaseHas('books', [
             'id' => $book->id
         ]);
+    }
+    /* Database Test End */
+
+    /* Create A Book Test Begin */
+    /** @test */
+    public function userAbleToAddABookTest()
+    {
+        // This is a store action.
+        $response = $this->post('/book', [
+            'title' => 'Learning Laravel',
+            'author' => 'Mohammed Salah',
+        ]);
+        // $response->assertStatus(200);
+
+        $this->assertDatabaseHas('books', [
+            'title' => 'Learning Laravel',
+            'author' => 'Mohammed Salah',
+        ]);
+
+        $response->assertRedirect('/book');
     }
     /** @test */
     public function userAbleToAddABookWithOnlyAuthorAndTitleFieldsTest()
@@ -46,23 +67,26 @@ class LibraryTest extends TestCase
 
         $response->assertRedirect('/book');
     }
-        /** @test */
-    public function userAbleToAddABookTest()
+    /** @test */
+    public function disallowEmptyDataFromAddingToTheBooksDatabaseTest()
     {
         // This is a store action.
         $response = $this->post('/book', [
-            'title' => 'Learning Laravel',
+            'title' => '',
             'author' => 'Mohammed Salah',
         ]);
         // $response->assertStatus(200);
 
-        $this->assertDatabaseHas('books', [
-            'title' => 'Learning Laravel',
+        $this->assertDatabaseMissing('books', [
+            'title' => '',
             'author' => 'Mohammed Salah',
         ]);
 
-        $response->assertRedirect('/book');
+        $response->assertSessionHasErrors(['title',]);
     }
+    /* Create A Book Test End */
+
+    /* Update A Book Test Begin */
     /** @test */
     public function userAbleToModifyAuthorsNameTest()
     {
@@ -102,4 +126,22 @@ class LibraryTest extends TestCase
 
         $response->assertRedirect('/book');
     }
+    /** @test */
+    public function disallowEmptyDataFromModifyingTheBooksDatabaseTest()
+    {
+        $book = factory(Book::class)->create();
+
+        $response = $this->patch('/book/' . $book->id, [
+            'author' => '',
+        ]);
+
+        $this->assertDatabaseMissing('books', [
+            'author' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['author',]);
+
+    }
+    /* Update A Book Test End */
+
 }
