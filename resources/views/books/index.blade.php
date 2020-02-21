@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -104,7 +105,7 @@
 		    	</form>
 			</div>
 		</div>
-			<div class="">
+			<div class=""> input::</div>
 		    <div class="row pt-2 pb-4">
 		        <div class="col-12">
 				  
@@ -112,14 +113,14 @@
 		        		<thead>
 						    <tr>
 						      <th scope="col">#</th>
-						      <th scope="col">Title</th>
-						      <th scope="col">Author</th>
+						      <th scope="col">@sortablelink('title')</th>
+						      <th scope="col">@sortablelink('author')</th>
 						      <th scope="col">Edit</th>
 						      <th scope="col">Delete</th>
 						    </tr>
 						</thead>
 						<tbody>
-							@foreach($books->sortBy('') as $book)
+							@foreach($books as $book)
 						    <tr>
 						    	<th scope="row" class="col-1">{{ $loop->iteration }}</th>
 						    	<td class="col-4">{{ $book->title }}</td>
@@ -132,6 +133,12 @@
 					</table> 
 		        </div>
 		    </div>
-		    
+		    @if($books->perPage() < $books->total())
+	    		<div class="row">
+	        		<div class="col-12 d-flex justify-content-center">
+	            		{{ $books->links() }}
+	        		</div>
+	    		</div>
+    		@endif
 </body>
 </html>

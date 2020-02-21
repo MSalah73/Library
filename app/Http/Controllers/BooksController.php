@@ -14,7 +14,10 @@ class BooksController extends Controller
      */
     public function index()
     {
-        return view('books.index');
+        // $books = Book::search('Moha')->paginate(4);
+        $books = Book::sortable()->latest()->paginate(4);
+        // dd($books);
+        return view('books.index', compact('books'));
     }
 
     /**
