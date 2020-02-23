@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Book;
 
-
 class LibraryTest extends TestCase
 {
     use RefreshDatabase;
@@ -160,4 +159,66 @@ class LibraryTest extends TestCase
 
     }
     /* Delete A Book Test End */
+    
+    /* Search By Title Or Author Test Begin */
+    /** @test */
+    public function userCanSearchBooksByAuthorFromTheBooksDatabaseTest()
+    {
+        $title = "AI";
+
+        $book = factory(Book::class, 50)->create();
+
+        $bookToSearch = factory(Book::class)->create([
+                'title' => $title,
+                'author' => "MoSalah",
+        ]);
+
+        $response = $this->get('/book/search?query=' . $title);
+        $response->assertSeeText($title);
+    }
+    /** @test */
+    public function userCanSearchBooksByTitleFromTheBooksDatabaseTest()
+    {
+        $author = "MoSalah";
+
+        $book = factory(Book::class, 50)->create();
+
+        $bookToSearch = factory(Book::class)->create([
+                'title' => 'AI',
+                'author' => $author,
+        ]);
+
+        $response = $this->get('/book/search?query=' . $author);
+        $response->assertSeeText($author);
+    }
+    /* Search By Title Or Author Test End */
+
+    /* Sort By Title Or Author Test Begin */
+    /** @test */
+    public function listSortByTitleDESCWorksCorrectlyTest()
+    {
+        factory(Book::class, 5)->create();
+
+        $bookToSearch = factory(Book::class)->create([
+                'title' => 'ZZZLAST',
+                'author' => "ZZZLAST",
+        ]);
+
+        $response = $this->get('/book?sort=title&direction=desc&page=1');
+        $response->assertSeeText('ZZZLAST');
+    }
+    /** @test */
+    public function listSortByTitleASCWorksCorrectlyTest()
+    {
+        factory(Book::class, 5)->create();
+
+        $bookToSearch = factory(Book::class)->create([
+                'title' => 'ZZZLAST',
+                'author' => "ZZZLAST",
+        ]);
+
+        $response = $this->get('/book?sort=title&direction=asc&page=2');
+        $response->assertSeeText('ZZZLAST');
+    }
+    /* Sort By Title Or Author Test End */
 }
