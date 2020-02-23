@@ -12,11 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('books.index');
 });
 
 // BookController
 Route::get('/book', 'BooksController@index')->name('books.index');
 Route::post('/book', 'BooksController@store')->name('books.store');
 Route::patch('/book/{book}', 'BooksController@update')->name('books.update');
+Route::get('/book/{book}/edit', 'BooksController@edit')->name('books.edit');
 Route::delete('/book/{book}', 'BooksController@destroy')->name('books.destory');
+Route::get('/book/search', 'BooksController@search')->name('books.search');

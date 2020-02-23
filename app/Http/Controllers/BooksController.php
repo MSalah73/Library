@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use Illuminate\Http\Request;
+use App\Exports\BooksExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as exportAS;
 
 class BooksController extends Controller
 {
@@ -14,9 +17,34 @@ class BooksController extends Controller
      */
     public function index()
     {
-        // $books = Book::search('Moha')->paginate(4);
         $books = Book::sortable()->latest()->paginate(4);
-        // dd($books);
+        return view('books.index', compact('books'));
+    }
+    /**
+     * Display a filtred list of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $data = $request->validate([
+                'query' => 'string',
+        ]);
+
+        // The Model::search('')->paginate(''); has some problems with pagination
+        // Problem: Some page were empty.
+        // Below is one solution but it requires the search the database twice. 
+        $ids = Book::search($data['query'])->get()->pluck('id');
+
+        $books = Book::whereIn('id', $ids)->sortable()->paginate(4);
+
+        // Problem: Pagination does not add the query field in the url. 
+        // Adding the query to links via {{ $books->appends[]->links}} does not work. I solved the problem with
+        // adding it in here via str_replace command.
+        $newPath = str_replace("search", "search?query=" . $data['query'], $books->path());
+
+        $books->withPath($newPath);
+
         return view('books.index', compact('books'));
     }
 
@@ -66,7 +94,7 @@ class BooksController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view('books.edit', compact('book'));
     }
 
     /**
@@ -99,4 +127,6 @@ class BooksController extends Controller
         
         return redirect()->route('books.index');
     }
+
+
 }
