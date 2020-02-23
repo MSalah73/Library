@@ -88,7 +88,7 @@
     <div class="row pt-2 pb-4">
         <div class="col-12">
 		   <form method="GET" action="/book/search">
-	            <div class="row">
+	            <div class="pb-4 row">
 	                <div class="col-md-6">
 	                    <input type="text" name="query" class="form-control" placeholder="Search">
 	                </div>

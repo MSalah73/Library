@@ -128,5 +128,22 @@ class BooksController extends Controller
         return redirect()->route('books.index');
     }
 
+    public function export(Request $request) 
+    {
+        $data = $request->validate([
+            'exportAs' => 'integer',
+            'fields' => 'integer',
+        ]);
+
+        $fields = ($data['fields'] === '3') ? ['title'] : (($data['fields'] === '2') ? ['author'] : ['title', 'author']);
+
+        if($data['exportAs'] === '1'){
+            return (new BooksExport)->only($fields)->download('books.csv', exportAS::CSV, [
+                'Content-Type' => 'text/csv',
+            ]);
+        }
+
+        return (new BooksExport)->only($fields)->saveXML();
+    }
 
 }

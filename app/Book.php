@@ -10,7 +10,7 @@ use Kyslik\ColumnSortable\Sortable;
 class Book extends Model
 {
 	use Searchable;
-
+	
 	use Sortable;
 
     public $sortable = ['title','author'];

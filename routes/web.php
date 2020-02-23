@@ -22,3 +22,6 @@ Route::patch('/book/{book}', 'BooksController@update')->name('books.update');
 Route::get('/book/{book}/edit', 'BooksController@edit')->name('books.edit');
 Route::delete('/book/{book}', 'BooksController@destroy')->name('books.destory');
 Route::get('/book/search', 'BooksController@search')->name('books.search');
+
+// Exports Routes
+Route::get('book/export/', 'BooksController@export')->name('books.export');
