@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container">
-	<div class='d-flex justify-content-between '>
-		<div class="row">
+	<div class='d-flex flex-wrap justify-content-between '>
+		<div class="flex-row">
 			<form method="POST" action="/book" enctype="multipart/form-data" >
 	        @csrf
-	        <div class="row">
+	        <div class="flex-row">
 	            <div class="col">
 	                <div class='row'>
 	                    <h1>Add A Book</h1>
@@ -43,10 +43,10 @@
 	        </div>
 	    	</form>
     	</div>
-    	<div class="row">
+    	<div class="flex-row">
 			<form method="GET" action="/book/export"enctype="multipart/form-data" >
 	        <!-- @csrf  No csrf needed -->
-	        <div class="row">
+	        <div class="flex-row">
 	            <div class="col">
 	                <div class='row'>
 	                    <h1>Download Books</h1>
@@ -85,14 +85,14 @@
 	    	</form>
 		</div>
 	</div>
-    <div class="row pt-2 pb-4">
-        <div class="col-12">
+    <div class="pt-2 pb-4">
+        <div class="">
 		   <form method="GET" action="/book/search">
-	            <div class="pb-4 row">
-	                <div class="col-md-6">
+	            <div class="pb-4 row d-flex">
+	                <div class="pt-3 col-md-6">
 	                    <input type="text" name="query" class="form-control" placeholder="Search">
 	                </div>
-	                <div class="col-md-6">
+	                <div class="pt-3 col-md-6">
 	                    <button class="btn btn-primary">Search</button>
 	                </div>
 	            </div>
@@ -110,7 +110,7 @@
 				<tbody>
 					@foreach($books as $book)
 				    <tr>
-				    	<th scope="row" class="col-1">{{ $loop->iteration }}</th>
+				    	<th scope="row" class="col-1">{{ $loop->iteration + $books->perPage() * ($books->currentPage() - 1)}}</th>
 				    	<td class="col-4">{{ $book->title }}</td>
 				    	<td class="col-4">{{ $book->author }}</td>
 				      	<td class="col-1"><button ><a href="/book/{{ $book->id}}/edit"><i class="material-icons">edit</i></a></button></td>

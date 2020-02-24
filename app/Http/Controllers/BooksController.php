@@ -27,10 +27,11 @@ class BooksController extends Controller
      */
     public function search(Request $request)
     {
-        $data = $request->validate([
-                'query' => 'string',
-        ]);
 
+        $data = $request->validate([
+                'query' => ['string','nullable'],
+        ]);
+        
         // The Model::search('')->paginate(''); has some problems with pagination
         // Problem: Some page were empty.
         // Below is one solution but it requires the search the database twice. 
