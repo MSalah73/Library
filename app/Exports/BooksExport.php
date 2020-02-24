@@ -30,17 +30,17 @@ class BooksExport implements FromQuery, WithHeadings
         return $this->exportOnly;
     }
 
-    // Maatwebsite\Excel does not support XML download. Below is a custom fuction to trasulate the data into
-    // XML fromated data and send as a downloadable file to the user.
+    // Maatwebsite\Excel does not support XML download. Below is a custom function to translate the data into
+    // XML formatted data and send it as a downloadable file to the user.
     public function saveXML()
     {
-        // Using the Query method to retrive the data with headings and convert it to an array format.
+        // Using the Query method to retrieve the data with headings and convert it to an array format.
         $data = BooksExport::query()->get()->toArray();
 
         // Using the ArrayToXml to convert the array to XML file. 
         $xml = ArrayToXml::convert(['__numeric' => $data]);
 
-        // Prepare the reposnce to the user witha a XML file.
+        // Prepare the response to the user with an XML file.
         $response = Response::create($xml, 200);
         $response->header('Content-Type', 'text/xml');
         $response->header('Cache-Control', 'public');

@@ -9,11 +9,7 @@ use App\Book;
 class LibraryTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+
     /* Database Test Begin*/
     /** @test */
     public function databaseAbleToAddABookTest()
@@ -35,7 +31,6 @@ class LibraryTest extends TestCase
             'title' => 'Learning Laravel',
             'author' => 'Mohammed Salah',
         ]);
-        // $response->assertStatus(200);
 
         $this->assertDatabaseHas('books', [
             'title' => 'Learning Laravel',
@@ -47,13 +42,11 @@ class LibraryTest extends TestCase
     /** @test */
     public function userAbleToAddABookWithOnlyAuthorAndTitleFieldsTest()
     {
-        // This is a store action.
         $response = $this->post('/book', [
             'BADVALUE' => 'BAD',
             'title' => 'Learning Laravel',
             'author' => 'Mohammed Salah',
         ]);
-        // $response->assertStatus(200);
 
         $this->assertDatabaseHas('books', [
             'title' => 'Learning Laravel',
@@ -69,12 +62,10 @@ class LibraryTest extends TestCase
     /** @test */
     public function disallowEmptyDataFromAddingToTheBooksDatabaseTest()
     {
-        // This is a store action.
         $response = $this->post('/book', [
             'title' => '',
             'author' => 'Mohammed Salah',
         ]);
-        // $response->assertStatus(200);
 
         $this->assertDatabaseMissing('books', [
             'title' => '',
